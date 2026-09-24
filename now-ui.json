@@ -1,0 +1,34 @@
+{
+  "components": {
+    "x-665953-dynamic-button": {
+      "innerComponents": [],
+      "uiBuilder": {
+        "associatedTypes": [
+          "global.core",
+          "global.landing-page"
+        ],
+        "label": "My Component",
+        "tileIcon": "./tile-icon/generic-tile-icon.svg",
+        "description": "A description of my component",
+        "category": "primitives"
+      },
+      "properties": [
+          { "name": "label", "label": "Button Label", "fieldType": "string", "defaultValue": "Submit" },
+          {
+            "name": "variant",
+            "label": "Variant Style",
+            "fieldType": "choice",
+            "choices": [
+              { "label": "Primary", "value": "primary" },
+              { "label": "Secondary", "value": "secondary" },
+              { "label": "Destructive", "value": "destructive" }
+            ],
+            "defaultValue": "primary"
+          },
+          { "name": "disabled", "label": "Disabled", "fieldType": "boolean", "defaultValue": false },
+          { "name": "visible", "label": "Visible", "fieldType": "boolean", "defaultValue": true }
+        ]
+    }
+  },
+  "scopeName": "x_665953_dynamic_0"
+}

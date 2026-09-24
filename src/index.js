@@ -1,0 +1,1 @@
+import './x-665953-dynamic-button';
