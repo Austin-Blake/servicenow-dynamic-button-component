@@ -1,1 +1,51 @@
 @import '@servicenow/sass-kit/host';
+:host {
+  display: block;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.dynamic-button-wrapper {
+  width: 100%;
+  margin: 4px 0;
+}
+
+.dynamic-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 40px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  /* Variants */
+  &.variant-primary {
+    background-color: #293e40;
+    color: #ffffff;
+    &:hover:not(:disabled) { background-color: #1f2f30; }
+  }
+
+  &.variant-secondary {
+    background-color: #f4f5f7;
+    color: #172b4d;
+    border-color: #dfe1e6;
+    &:hover:not(:disabled) { background-color: #ebecf0; }
+  }
+
+  &.variant-danger {
+    background-color: #de350b;
+    color: #ffffff;
+    &:hover:not(:disabled) { background-color: #bf2600; }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
