@@ -1,38 +1,41 @@
-import { createCustomElement } from "@servicenow/ui-core";
+import { createCustomElement, actionTypes } from "@servicenow/ui-core";
 import snabbdom from "@servicenow/ui-renderer-snabbdom";
 import styles from "./styles.scss";
 
 const view = (state, { dispatch }) => {
   const { label, disabled, visible, loading, variant } = state;
 
-  // Handle visibility property (string or boolean)
-  if (visible === false || visible === "false") {
-    return null;
+  // STRICT VISIBILITY CHECK:
+  // Only render if visible is explicitly true or 'true'
+  const isVisible = visible === true || visible === "true";
+  if (!isVisible) {
+    return null; // Renders completely empty until set to true
   }
 
   const handleClick = (e) => {
     e.preventDefault();
 
-    // Block clicks if disabled or loading
     if (disabled === true || disabled === "true" || loading === true || loading === "true") {
       return;
     }
 
-    // Emit custom event across Shadow DOM boundary
-    dispatch("DYNAMIC_BUTTON_CLICKED", { timestamp: Date.now(), label: label }, { bubbles: true, composed: true });
+    e.target.dispatchEvent(
+      new CustomEvent("DYNAMIC_BUTTON_CLICKED", { bubbles: true, composed: true, detail: { label: label, timestamp: Date.now() } })
+    );
   };
 
   const isBtnDisabled = disabled === true || disabled === "true" || loading === true || loading === "true";
+  const isLoading = loading === true || loading === "true";
 
   return (
     <div className="dynamic-button-wrapper">
       <button
         type="button"
-        className={`dynamic-btn variant-${variant || "primary"} ${loading ? "is-loading" : ""}`}
+        className={`dynamic-btn variant-${variant || "primary"} ${isLoading ? "is-loading" : ""}`}
         disabled={isBtnDisabled}
         on-click={handleClick}
       >
-        {loading === true || loading === "true" ? "Processing..." : label || "Execute Action"}
+        {isLoading ? "Processing..." : label || "Execute Action"}
       </button>
     </div>
   );
@@ -43,10 +46,16 @@ createCustomElement("x-665953-dynamic-button", {
   view,
   styles,
   properties: {
-    label: { default: "Execute Action" },
-    disabled: { default: false },
-    visible: { default: true },
-    loading: { default: false },
-    variant: { default: "primary" }, // 'primary', 'secondary', 'danger'
+    label: { default: "Execute Action", reflect: true },
+    disabled: { default: false, reflect: true },
+    visible: { default: false, reflect: true }, // Default strictly false
+    loading: { default: false, reflect: true },
+    variant: { default: "primary", reflect: true },
+  },
+  actionHandlers: {
+    [actionTypes.COMPONENT_PROPERTY_CHANGED]: ({ action, updateState }) => {
+      const { name, value } = action.payload;
+      updateState({ [name]: value });
+    },
   },
 });

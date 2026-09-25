@@ -3,6 +3,11 @@
   display: block;
   width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* Hide custom element root by default when visible property is false/absent */
+  &[visible="false"] {
+    display: none !important;
+  }
 }
 
 .dynamic-button-wrapper {
@@ -24,7 +29,6 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
-  /* Variants */
   &.variant-primary {
     background-color: #293e40;
     color: #ffffff;
