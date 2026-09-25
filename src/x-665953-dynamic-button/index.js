@@ -3,13 +3,11 @@ import snabbdom from "@servicenow/ui-renderer-snabbdom";
 import styles from "./styles.scss";
 
 const view = (state, { dispatch }) => {
-  const { label, disabled, visible, loading, variant } = state;
+  const { label, disabled, visible, loading, variant, align, size } = state;
 
-  // STRICT VISIBILITY CHECK:
-  // Only render if visible is explicitly true or 'true'
   const isVisible = visible === true || visible === "true";
   if (!isVisible) {
-    return null; // Renders completely empty until set to true
+    return null;
   }
 
   const handleClick = (e) => {
@@ -28,10 +26,10 @@ const view = (state, { dispatch }) => {
   const isLoading = loading === true || loading === "true";
 
   return (
-    <div className="dynamic-button-wrapper">
+    <div className={`dynamic-button-wrapper align-${align || "left"}`}>
       <button
         type="button"
-        className={`dynamic-btn variant-${variant || "primary"} ${isLoading ? "is-loading" : ""}`}
+        className={`dynamic-btn variant-${variant || "primary"} size-${size || "medium"} ${isLoading ? "is-loading" : ""}`}
         disabled={isBtnDisabled}
         on-click={handleClick}
       >
@@ -48,9 +46,11 @@ createCustomElement("x-665953-dynamic-button", {
   properties: {
     label: { default: "Execute Action", reflect: true },
     disabled: { default: false, reflect: true },
-    visible: { default: false, reflect: true }, // Default strictly false
+    visible: { default: false, reflect: true },
     loading: { default: false, reflect: true },
-    variant: { default: "primary", reflect: true },
+    variant: { default: "primary", reflect: true }, // 'primary', 'secondary', 'danger'
+    align: { default: "left", reflect: true }, // 'left', 'center', 'right', 'full'
+    size: { default: "medium", reflect: true }, // 'small', 'medium', 'large'
   },
   actionHandlers: {
     [actionTypes.COMPONENT_PROPERTY_CHANGED]: ({ action, updateState }) => {
