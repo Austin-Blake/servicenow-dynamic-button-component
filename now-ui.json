@@ -10,20 +10,103 @@
         "category": "primitives"
       },
       "properties": [
-        { "name": "label", "label": "Button Label", "fieldType": "string", "defaultValue": "Submit" },
+        {
+          "name": "value",
+          "fieldType": "string",
+          "label": "Value (Default Value)",
+          "description": "Value of the component.",
+          "readOnly": false,
+          "mandatory": false,
+          "defaultValue": ""
+        },
+        {
+          "name": "id",
+          "fieldType": "string",
+          "label": "HTML ID",
+          "description": "Standard HTML ID attribute.",
+          "readOnly": false,
+          "mandatory": false,
+          "defaultValue": ""
+        },
+        {
+          "name": "buttonId",
+          "fieldType": "string",
+          "label": "Button ID",
+          "description": "Unique identifier for the button instance.",
+          "readOnly": false,
+          "mandatory": false,
+          "defaultValue": ""
+        },
+        { "name": "label", "fieldType": "string", "label": "Button Label", "readOnly": false, "mandatory": false, "defaultValue": "Execute Action" },
         {
           "name": "variant",
-          "label": "Variant Style",
           "fieldType": "choice",
+          "label": "Variant",
           "choices": [
             { "label": "Primary", "value": "primary" },
             { "label": "Secondary", "value": "secondary" },
-            { "label": "Destructive", "value": "destructive" }
+            { "label": "Tertiary", "value": "tertiary" }
           ],
+          "readOnly": false,
+          "mandatory": false,
           "defaultValue": "primary"
         },
-        { "name": "disabled", "label": "Disabled", "fieldType": "boolean", "defaultValue": false },
-        { "name": "visible", "label": "Visible", "fieldType": "boolean", "defaultValue": true }
+        {
+          "name": "size",
+          "fieldType": "choice",
+          "label": "Size",
+          "choices": [
+            { "label": "Small", "value": "sm" },
+            { "label": "Medium", "value": "md" },
+            { "label": "Large", "value": "lg" }
+          ],
+          "readOnly": false,
+          "mandatory": false,
+          "defaultValue": "md"
+        },
+        {
+          "name": "align",
+          "fieldType": "choice",
+          "label": "Alignment",
+          "choices": [
+            { "label": "Left", "value": "left" },
+            { "label": "Center", "value": "center" },
+            { "label": "Right", "value": "right" }
+          ],
+          "readOnly": false,
+          "mandatory": false,
+          "defaultValue": "left"
+        },
+        {
+          "name": "tooltip",
+          "fieldType": "string",
+          "label": "Tooltip",
+          "description": "Text displayed on hover.",
+          "readOnly": false,
+          "mandatory": false,
+          "defaultValue": ""
+        },
+        { "name": "disabled", "fieldType": "boolean", "label": "Disabled", "readOnly": false, "mandatory": false, "defaultValue": false },
+        { "name": "visible", "fieldType": "boolean", "label": "Visible", "readOnly": false, "mandatory": false, "defaultValue": false },
+        { "name": "loading", "fieldType": "boolean", "label": "Loading State", "readOnly": false, "mandatory": false, "defaultValue": false },
+        {
+          "name": "ariaLabel",
+          "fieldType": "string",
+          "label": "Aria Label (Accessibility)",
+          "description": "Hidden label for screen readers. Overrides visual label for accessibility.",
+          "readOnly": false,
+          "mandatory": false,
+          "defaultValue": ""
+        },
+        {
+          "name": "icon",
+          "fieldType": "string",
+          "label": "Icon Name",
+          "description": "Optional: Name of the now-icon to display (e.g., 'play-outline').",
+          "readOnly": false,
+          "mandatory": false,
+          "defaultValue": ""
+        }
       ]
     }
   },

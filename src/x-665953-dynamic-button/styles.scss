@@ -1,4 +1,5 @@
 @import '@servicenow/sass-kit/host';
+
 :host {
   display: block;
   width: 100%;
@@ -7,9 +8,42 @@
 
 .dynamic-button-wrapper {
   display: flex;
-  position: relative;
   width: 100%;
   margin: 8px 0;
+
+  /* Alignment Handling */
+  &.align-left {
+    justify-content: flex-start;
+    .dynamic-btn { width: auto; }
+  }
+
+  &.align-center {
+    justify-content: center;
+    .dynamic-btn { width: auto; }
+  }
+
+  &.align-right {
+    justify-content: flex-end;
+    .dynamic-btn { width: auto; }
+  }
+
+  &.align-full {
+    justify-content: stretch;
+    .dynamic-btn { width: 100%; }
+  }
+}
+
+.dynamic-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Anchors absolute tooltip directly to button boundary */
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
 
   /* --- Styled Custom Tooltip --- */
   &[data-tooltip] {
@@ -52,77 +86,34 @@
       z-index: 101;
     }
 
-    /* Hover & Focus State */
+    /* Hover & Focus States */
     &:hover::after,
-    &:hover::before {
+    &:hover::before,
+    &:focus::after,
+    &:focus::before {
       opacity: 1;
       visibility: visible;
       transform: translateX(-50%) translateY(0) scale(1);
     }
   }
 
-  /* Alignment Handling */
-  &.align-left {
-    justify-content: flex-start;
-    .dynamic-btn { width: auto; }
-  }
-
-  &.align-center {
-    justify-content: center;
-    .dynamic-btn { width: auto; }
-  }
-
-  &.align-right {
-    justify-content: flex-end;
-    .dynamic-btn { width: auto; }
-
-    /* Adjust tooltip position for right-aligned buttons to stay on-screen */
-    &[data-tooltip]::after,
-    &[data-tooltip]::before {
-      left: auto;
-      right: 0;
-      transform: translateY(4px) scale(0.95);
-    }
-    &[data-tooltip]:hover::after,
-    &[data-tooltip]:hover::before {
-      transform: translateY(0) scale(1);
-    }
-    &[data-tooltip]::before {
-      right: 16px;
-    }
-  }
-
-  &.align-full {
-    justify-content: stretch;
-    .dynamic-btn { width: 100%; }
-  }
-}
-
-.dynamic-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  border-radius: 4px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  white-space: nowrap;
-
-  /* Size Variants */
-  &.size-small {
+  /* Size Variants (Supports full words and shorthand keys) */
+  &.size-small,
+  &.size-sm {
     min-height: 28px;
     padding: 4px 12px;
     font-size: 12px;
   }
 
-  &.size-medium {
+  &.size-medium,
+  &.size-md {
     min-height: 36px;
     padding: 8px 16px;
     font-size: 14px;
   }
 
-  &.size-large {
+  &.size-large,
+  &.size-lg {
     min-height: 44px;
     padding: 12px 24px;
     font-size: 16px;
@@ -140,6 +131,13 @@
     color: #172b4d;
     border-color: #dfe1e6;
     &:hover:not(:disabled) { background-color: #ebecf0; }
+  }
+
+  &.variant-tertiary {
+    background-color: transparent;
+    color: #293e40;
+    border-color: #293e40;
+    &:hover:not(:disabled) { background-color: rgba(41, 62, 64, 0.05); }
   }
 
   &.variant-danger {
