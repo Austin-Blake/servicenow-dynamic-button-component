@@ -12,13 +12,56 @@ A lightweight, reactive Next Experience custom UI primitive (`x-665953-dynamic-b
 
 ## 1. Installation & Setup
 
-### Step A: Import & Commit the Update Set
+### You will need ServiceNow CLI Installed on Your Local Machine! Get from SN Store.
 
-1. Log into the target ServiceNow instance.
-2. Navigate to **System Update Sets > Retrieved Update Sets**.
-3. Click **Import Update Set from XML** and select the provided Update Set XML file.
-4. Open the imported record, click **Preview Update Set**, and resolve any non-blocking warnings.
-5. Click **Commit Update Set**.
+### Step A: Import & Commit
+
+To bring a GitHub repository into Visual Studio Code, you will need to **clone** it. This downloads a local copy of the project to your computer and automatically connects it to VS Code.
+
+Here are the step-by-step instructions:
+
+### Step 1: Copy the Repository URL from GitHub
+
+1. Copy the repository URL (it will look like `https://github.com/Austin-Blake/servicenow-dynamic-button-component.git`).
+
+### Step 2: Clone the Repository in VS Code
+
+You can do this using either the built-in interface or the terminal.
+
+#### Option A: Using the Command Palette (Easiest)
+
+1. Open **Visual Studio Code**.
+2. Open the Command Palette by pressing **`Ctrl + Shift + P`** on Windows/Linux or **`Cmd + Shift + P`** on Mac.
+3. Type `Git: Clone` and select the **Git: Clone** command.
+4. Paste the GitHub repository URL you copied in Step 1 and press **Enter**.
+5. Select a local folder on your computer where you want to save the project files and click **Select as Repository Destination**.
+
+#### Option B: Using the Integrated Terminal
+
+1. Open **Visual Studio Code**.
+2. Open a new terminal by navigating to **Terminal > New Terminal** in the top menu, or press **`Ctrl + \``**.
+3. Type `git clone `, paste your URL, and press **Enter**:
+   ```bash
+   git clone https://github.com/Austin-Blake/servicenow-dynamic-button-component.git
+   ```
+
+### Step 3: Open the Project
+
+1. Once the downloading finishes, a notification window will pop up in the bottom right corner of VS Code asking if you want to open the repository.
+2. Click **Open** (or _Open in new window_).
+3. If prompted with a "Workspace Trust" window, click **Yes, I trust the authors**.
+
+Your GitHub repository is now fully integrated into your VS Code workspace! You can use the **Source Control** tab (`Ctrl + Shift + G`) on the left-side Activity Bar to track changes, stage commits, and push/pull updates in the future.
+
+## Option 1: Store In Update Set
+
+1. Log into the target ServiceNow instance. (I used PDI)
+2. Log into your instance or profile connected to your instance via CLI.
+3. In your Instance Open (make current) an Update Set in the Components Scope. (Alternately you can change the components scope in the files to match a scope that exists in your Instance.)
+4. In Editior Navigate and Open folder/file of the Project. Verify your in the folder.
+5. Run Command Line `sn ui-component deploy`.
+6. This will automatically load the files into your update set, ready for deployment to target Instance. (Only needed if not deploying directly to target Instance.)
+7. Install Update set.(If you loaded straight to instance component is there (Dependant on Scope Existing)).
 
 ### Step B: Link Component to a Record Producer Variable
 
@@ -26,12 +69,12 @@ A lightweight, reactive Next Experience custom UI primitive (`x-665953-dynamic-b
 2. Open your target Record Producer.
 3. Under the **Variables** related list, create a new variable or edit an existing one:
    - **Type**: `Custom` (or `Custom UI`)
-   - **Macroponent**: Select `x-665953-dynamic-button`
+   - **Macroponent**: Select `Dynamic UI Button`
 4. Click **Update** to save changes.
 
 ---
 
-## 2. Catalog Client Script Implementation
+## 2. Single Button Catalog Client Script Implementation
 
 To initialize, style, and handle click events for the button, add an `onLoad` Catalog Client Script to your Record Producer.
 
@@ -111,6 +154,7 @@ function onLoad() {
       buttonEl.setAttribute("label", LABEL);
       buttonEl.setAttribute("tooltip", TOOLTIP);
       buttonEl.setAttribute("variant", VARIANT);
+      buttonEl.setAttribute("ariaLabel", ARIALABEL);
       buttonEl.setAttribute("size", SIZE);
       buttonEl.setAttribute("align", ALIGN);
       buttonEl.setAttribute("visible", VISIBLE);
@@ -153,17 +197,18 @@ function onLoad() {
 
 Component properties can be updated dynamically at runtime via JavaScript.
 
-| Property          | Accepted Values                           | Default            | Description                                                 |
-| ----------------- | ----------------------------------------- | ------------------ | ----------------------------------------------------------- |
-| **id / buttonId** | String                                    | `""`               | Unique identifier used for DOM targeting and event routing. |
-| **label**         | String                                    | `"Execute Action"` | Text displayed on the button face.                          |
-| **visible**       | `"true"`, `"false"`                       | `"false"`          | Controls rendering. Keep false until attributes are set.    |
-| **loading**       | `"true"`, `"false"`                       | `"false"`          | Displays Processing state and blocks clicks.                |
-| **disabled**      | `"true"`, `"false"`                       | `"false"`          | Applies dimmed opacity and disables button.                 |
-| **variant**       | `"primary"`, `"secondary"`, `"danger"`    | `"primary"`        | Background color and button color theme.                    |
-| **size**          | `"small"`, `"medium"`, `"large"`          | `"medium"`         | Button scale and padding.                                   |
-| **align**         | `"left"`, `"center"`, `"right"`, `"full"` | `"left"`           | Flexbox container placement inside form layout.             |
-| **tooltip**       | String                                    | `""`               | Custom dark popover hint displayed on hover.                |
+| Property          | Accepted Values                                      | Default            | Description                                                                                                                                 |
+| ----------------- | ---------------------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **id / buttonId** | String                                               | `""`               | Unique identifier used for DOM targeting and event routing.                                                                                 |
+| **label**         | String                                               | `"Execute Action"` | Text displayed on the button face.                                                                                                          |
+| **visible**       | `"true"`, `"false"`                                  | `"false"`          | Controls rendering. Keep false until attributes are set.                                                                                    |
+| **loading**       | `"true"`, `"false"`                                  | `"false"`          | Displays Processing state and blocks clicks.                                                                                                |
+| **disabled**      | `"true"`, `"false"`                                  | `"false"`          | Applies dimmed opacity and disables button.                                                                                                 |
+| **variant**       | `"primary"`, `"secondary"`, `"danger"`               | `"primary"`        | Background color and button color theme.                                                                                                    |
+| **size**          | `"small"`, `"medium"`, `"large"`,`"sm"`,`"md"`,`"lg` | `"medium"`         | Button scale and padding.                                                                                                                   |
+| **align**         | `"left"`, `"center"`, `"right"`, `"full"`            | `"left"`           | Flexbox container placement inside form layout.                                                                                             |
+| **tooltip**       | String                                               | `""`               | Custom dark popover hint displayed on hover.                                                                                                |
+| **ariaLabel**     | String                                               | `""`               | Attribute used to provide an invisible text label for an element so that screen readers and other assistive technologies can read it aloud. |
 
 ---
 
@@ -174,7 +219,14 @@ The component dispatches a native CustomEvent (`DYNAMIC_BUTTON_CLICKED`) configu
 ### Callback evt.detail Payload
 
 ```json
-{ "buttonId": "verify_account_btn", "id": "verify_account_btn", "label": "Verify Account", "timestamp": 1773582410000 }
+{
+  "buttonId": "verify_account_btn",
+  "id": "verify_account_btn",
+  "label": "Verify Account",
+  "timestamp": 1773582410000,
+  "value": "123456",
+  "variant": "primary"
+}
 ```
 
 ---
@@ -184,7 +236,9 @@ The component dispatches a native CustomEvent (`DYNAMIC_BUTTON_CLICKED`) configu
 When multiple dynamic buttons are placed on a single form or Record Producer:
 
 1. Assign distinct ID attributes to each instance (`buttonEl.id = 'btn_one'`).
-2. Filter event callbacks inside the `DYNAMIC_BUTTON_CLICKED` listener using `evt.detail.buttonId`:
+2. System Property Must Exist to ID each button component. (See `The System Property Configuration`).
+3. Filter event callbacks inside the `DYNAMIC_BUTTON_CLICKED` listener using `evt.detail.buttonId`:
+   Alternately Each Button can have its own Onload Script and Listener. (My Prefered Pattern).
 
 ```javascript
 buttonEl.addEventListener("DYNAMIC_BUTTON_CLICKED", function (evt) {
@@ -195,6 +249,8 @@ buttonEl.addEventListener("DYNAMIC_BUTTON_CLICKED", function (evt) {
   }
 });
 ```
+
+4. Fetch System Property and configure (See `Multiple Button Setup Example`);
 
 ```
 
